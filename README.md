@@ -12,7 +12,7 @@ As long as you place your task files within a `tasks` directory, and import the 
 
 ## Installation
 
-    $ go get -u github.com/chuckpreslar/gofer/gofer
+    $ go get -u github.com/o0khoiclub0o/gofer
 
 ## Usage
 
@@ -28,7 +28,7 @@ The following is the most basic example:
 package tasks
 
 import (
-  "github.com/chuckpreslar/gofer"
+  "github.com/o0khoiclub0o/gofer/gofer"
 )
 
 var TaskOne = gofer.Register(gofer.Task{
