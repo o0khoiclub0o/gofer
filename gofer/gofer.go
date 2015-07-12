@@ -380,9 +380,17 @@ func parsePackages(packages map[string]*ast.Package, dir string) {
 			fmt.Fprintf(os.Stdout, "----%s\n", dir)
 			fmt.Fprintf(os.Stdout, "-----%s\n", goPath)
 			fmt.Fprintf(os.Stdout, "------%s\n", SourcePrefix)
-			imprtPath := strings.TrimPrefix(strings.Replace(dir, goPath, "", 1), SourcePrefix)
-			fmt.Fprintf(os.Stdout, "-------%s\n", imprtPath)
-			templateData.Imports = append(templateData.Imports, imprt{imprtPath})
+			gopaths := strings.Split(goPath, ":")
+			for _, gopath := range gopaths {
+				prefix := gopath + SourcePrefix
+				if !strings.HasPrefix(dir, prefix) {
+					continue
+				}
+
+				imprtPath := strings.TrimPrefix(dir, prefix)
+				fmt.Fprintf(os.Stdout, "-------%s\n", imprtPath)
+				templateData.Imports = append(templateData.Imports, imprt{imprtPath})
+			}
 		}
 	}
 }
