@@ -294,10 +294,11 @@ func load(definition string, arguments ...string) (err error) {
 	}
 
 	dir := path.Join(os.TempDir(), fmt.Sprintf(TemplateDestination, time.Now().Unix()))
-
+	fmt.Fprintf(os.Stdout, "---%s\n", dir)
 	if err = write(dir); nil != err {
 		return
 	}
+	fmt.Fprintf(os.Stdout, "---%s\n", templateData)
 
 	defer func() {
 		err = remove(dir)
@@ -376,7 +377,11 @@ func parsePackages(packages map[string]*ast.Package, dir string) {
 		file := ast.MergePackageFiles(pkg, ast.FilterImportDuplicates)
 
 		if isGoferTaskFile(file) {
+			fmt.Fprintf(os.Stdout, "----%s\n", dir)
+			fmt.Fprintf(os.Stdout, "-----%s\n", goPath)
+			fmt.Fprintf(os.Stdout, "------%s\n", SourcePrefix)
 			imprtPath := strings.TrimPrefix(strings.Replace(dir, goPath, "", 1), SourcePrefix)
+			fmt.Fprintf(os.Stdout, "-------%s\n", imprtPath)
 			templateData.Imports = append(templateData.Imports, imprt{imprtPath})
 		}
 	}
